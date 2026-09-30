@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                // --- Part 1: Multiple Choice Logic ---
+                // Handle incorrect answer clicks
+                let incorrectButtons = document.querySelectorAll('.incorrect');
+                for (let i = 0; i < incorrectButtons.length; i++) {
+                    incorrectButtons[i].addEventListener('click', function() {
+                        // Reset background colors for all buttons in Part 1
+                        let mcButtons = document.querySelectorAll('.section button');
+                        mcButtons.forEach(button => {
+                            if (button.parentElement.classList.contains('section') && !button.classList.contains('fr-submit')) {
+                                button.style.backgroundColor = '';
+                            }
+                        });
+                        // Turn clicked incorrect button red
+                        this.style.backgroundColor = '#f8d7da';
+                        document.querySelector('#feedback1').textContent = 'Incorrect';
+                        document.querySelector('#feedback1').style.color = '#dc3545';
+                    });
+                }
+
+                // Handle correct answer click
+                let correctButton = document.querySelector('.correct');
+                if (correctButton) {
+                    correctButton.addEventListener('click', function() {
+                        // Reset background colors
+                        let mcButtons = document.querySelectorAll('.section button');
+                        mcButtons.forEach(button => {
+                            if (button.parentElement.classList.contains('section') && !button.classList.contains('fr-submit')) {
+                                button.style.backgroundColor = '';
+                            }
+                        });
+                        // Turn clicked correct button green
+                        this.style.backgroundColor = '#d4edda';
+                        document.querySelector('#feedback1').textContent = 'Correct!';
+                        document.querySelector('#feedback1').style.color = '#28a745';
+                    });
+                }
+
+                // --- Part 2: Free Response Logic ---
+                let submitButton = document.querySelector('.fr-submit');
+                if (submitButton) {
+                    submitButton.addEventListener('click', function() {
+                        let input = document.querySelector('.fr-input');
+                        let feedback = document.querySelector('#feedback2');
+                        let userAnswer = input.value.trim().toLowerCase();
+
+                        // Define the correct answer (e.g., "paris")
+                        let correctAnswer = "paris";
+
+                        if (userAnswer === correctAnswer) {
+                            input.style.backgroundColor = '#d4edda';
+                            feedback.textContent = 'Correct!';
+                            feedback.style.color = '#28a745';
+                        } else {
+                            input.style.backgroundColor = '#f8d7da';
+                            feedback.textContent = 'Incorrect';
+                            feedback.style.color = '#dc3545';
+                        }
+                    });
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <!-- Part 1: Multiple Choice -->
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>What is the chemical symbol for gold?</h3>
+                <button class="incorrect">Ag</button>
+                <button class="incorrect">Fe</button>
+                <button class="correct">Au</button>
+                <button class="incorrect">Cu</button>
+                <p id="feedback1" style="font-weight: bold; margin-top: 15px;"></p>
+            </div>
+
+            <!-- Part 2: Free Response -->
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <h3>What is the capital of France?</h3>
+                <input type="text" class="fr-input" placeholder="Enter your answer">
+                <button class="fr-submit">Check Answer</button>
+                <p id="feedback2" style="font-weight: bold; margin-top: 15px;"></p>
+            </div>
+        </div>
+    </body>
+</html>
